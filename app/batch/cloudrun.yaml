@@ -8,7 +8,7 @@ spec:
       annotations:
         run.googleapis.com/execution-environment: gen2
         # TODO: change for your own vpc name
-        run.googleapis.com/network-interfaces: '[{"network":"cnsrun-app", "subnetwork":"cnsrun-PROJECT_ID"}]'
+        run.googleapis.com/network-interfaces: '[{"network":"cnsrun-app", "subnetwork":"cnsrun-cloud-426810"}]'
         run.googleapis.com/vpc-access-egress: all-traffic
     spec:
       taskCount: 1
@@ -16,25 +16,25 @@ spec:
       template:
         spec:
           containers:
-          - image: batch
-            resources:
-              limits:
-                cpu: '1'
-                memory: 512Mi
-            env:
-              - name: DB_USER
-                value: "app"
-              - name: DB_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    key: latest
-                    name: cnsrun-app-db-password
-              - name: DB_HOST
-                value: "10.0.200.3"  # FIXME: Change DB_HOST value to actual private IP address after Cloud SQL created
-              - name: DB_PORT
-                value: "5432"
-              - name: DB_NAME
-                value: "cnsrun"
+            - image: batch
+              resources:
+                limits:
+                  cpu: "1"
+                  memory: 512Mi
+              env:
+                - name: DB_USER
+                  value: "app"
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: latest
+                      name: cnsrun-app-db-password
+                - name: DB_HOST
+                  value: "10.0.200.3" # FIXME: Change DB_HOST value to actual private IP address after Cloud SQL created
+                - name: DB_PORT
+                  value: "5432"
+                - name: DB_NAME
+                  value: "cnsrun"
           maxRetries: 3
-          timeoutSeconds: '600'
-          serviceAccountName: cnsrun-app-batch@PROJECT_ID.iam.gserviceaccount.com
+          timeoutSeconds: "600"
+          serviceAccountName: cnsrun-app-batch@cloud-426810.iam.gserviceaccount.com
